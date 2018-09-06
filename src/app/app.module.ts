@@ -13,7 +13,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DatabaseProvider } from '../providers/database/database';
 import {LoginPage} from '../pages/login/login' ;
 import {RegisterPage} from '../pages/register/register';
+import { HttpClientModule } from '@angular/common/http';
 
+import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
   declarations: [
@@ -21,10 +23,10 @@ import {RegisterPage} from '../pages/register/register';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage , LoginPage
+    TabsPage , LoginPage , RegisterPage
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,HttpClientModule ,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -33,13 +35,13 @@ import {RegisterPage} from '../pages/register/register';
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage , RegisterPage , LoginPage
   ],
   providers: [
     StatusBar,
-    SplashScreen,
+    SplashScreen, DatabaseProvider ,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DatabaseProvider
+  
   ]
 })
 export class AppModule {}

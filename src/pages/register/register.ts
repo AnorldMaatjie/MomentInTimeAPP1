@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import {user} from '../model/user'
+import {DatabaseProvider} from '../../providers/database/database' ;
 
 /**
  * Generated class for the RegisterPage page.
@@ -16,13 +17,32 @@ import {user} from '../model/user'
 })
 export class RegisterPage {
 
+  [x: string]: any;
   user = {} as user ;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams ,private db:DatabaseProvider,public alertCtrl: AlertController ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
+  }
+
+  Register(user:user){
+    if(this.user.email !=null  && this.user.password){
+    this.db.register(user.email ,user.password).then(()=>{
+      alert("sucess");
+    } , (error)=>{
+      alert("unsucess");
+
+    }) 
+  }else{
+    const alert = this.alertCtrl.create({
+      title: 'warning!',
+      subTitle:  'Please enter email and password' ,
+      buttons: ['OK']
+    });
+    alert.present();
+  }
   }
 
 }

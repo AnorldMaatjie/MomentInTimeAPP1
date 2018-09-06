@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { AlertController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 declare var firebase ;
 
 /*
@@ -11,8 +12,8 @@ declare var firebase ;
 */
 @Injectable()
 export class DatabaseProvider {
-
-  constructor(public http: HttpClient) {
+  message;
+  constructor(public http: HttpClient,public alertCtrl: AlertController,public toastCtrl: ToastController) {
     console.log('Hello DatabaseProvider Provider');
   }
 
@@ -20,8 +21,25 @@ export class DatabaseProvider {
 
   register(email , password){ 
     return new Promise((resolve, reject)=>{
-      firebase.auth().createUserWithEmailAndPassword(email , password) ;
-      resolve();
+      firebase.auth().createUserWithEmailAndPassword(email , password) .then(()=>{
+
+        const toast = this.toastCtrl.create({
+          message: 'Successfully Registered',
+          duration: 3000,
+          position: 'middle'
+        });
+        toast.present();
+      } , (error)=>{
+         
+        const alert = this.alertCtrl.create({
+          title: 'warning!',
+          subTitle:error.message,
+          buttons: ['OK']
+        });
+        alert.present();
+
+      });
+  
 
  })
 
@@ -29,11 +47,26 @@ export class DatabaseProvider {
 
  login(email , password){
   return new Promise((resolve, reject)=>{
-    firebase.auth().signInWithEmailAndPassword(email , password) ;
+    firebase.auth().signInWithEmailAndPassword(email , password).then(()=>{
+
+      resolve();
+    } , (error)=>{
+      reject(error);
+
+
+    });
+
+
+})
+}
+
+forgetPassword(email){
+  return new Promise((resolve, reject)=>{
+    firebase.auth().sendPasswordResetEmail(email ) ;
     resolve();
 
 })
-  
- }
+
+}
 
 }
