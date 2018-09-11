@@ -482,6 +482,7 @@ var DatabaseProvider = /** @class */ (function () {
         this.http = http;
         this.alertCtrl = alertCtrl;
         this.toastCtrl = toastCtrl;
+        this.provider = new firebase.auth.FacebookAuthProvider();
         console.log('Hello DatabaseProvider Provider');
     }
     DatabaseProvider.prototype.register = function (email, password) {
