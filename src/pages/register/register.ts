@@ -30,9 +30,23 @@ export class RegisterPage {
   Register(user:user){
     if(this.user.email !=null  && this.user.password){
     this.db.register(user.email ,user.password).then(()=>{
+      const toast = this.toastCtrl.create({
+        message: 'Successfully Registered',
+        duration: 3000,
+        position: 'middle'
+      });
+      toast.present();
       alert("sucess");
     } , (error)=>{
-      alert("unsucess");
+
+
+      const alert = this.alertCtrl.create({
+        title: 'warning!',
+        subTitle:error.message,
+        buttons: ['OK']
+      });
+      alert.present();
+      // alert("unsucess");
 
     }) 
   }else{

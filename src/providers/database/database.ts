@@ -13,6 +13,8 @@ declare var firebase ;
 @Injectable()
 export class DatabaseProvider {
   message;
+provider = new firebase.auth.FacebookAuthProvider();
+
   constructor(public http: HttpClient,public alertCtrl: AlertController,public toastCtrl: ToastController) {
     console.log('Hello DatabaseProvider Provider');
   }
@@ -22,22 +24,9 @@ export class DatabaseProvider {
   register(email , password){ 
     return new Promise((resolve, reject)=>{
       firebase.auth().createUserWithEmailAndPassword(email , password) .then(()=>{
-
-        const toast = this.toastCtrl.create({
-          message: 'Successfully Registered',
-          duration: 3000,
-          position: 'middle'
-        });
-        toast.present();
-      } , (error)=>{
-         
-        const alert = this.alertCtrl.create({
-          title: 'warning!',
-          subTitle:error.message,
-          buttons: ['OK']
-        });
-        alert.present();
-
+        resolve();
+      } , (error)=>{ 
+        reject(error);
       });
   
 
